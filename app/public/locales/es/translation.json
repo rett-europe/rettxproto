@@ -1,6 +1,6 @@
 {
     "common": {
-        "title": "Asociación Española Sindrome de Rett",
+        "title": "Asociación Europea Sindrome de Rett",
         "loading": "Loading...",
         "add": "Add",
         "edit": "Edit",
@@ -20,14 +20,14 @@
             "privacy": "Privacy",
             "manage-cookies": "Manage cookies",
             "terms-of-use": "Terms of use",
-            "copyright": "© 2023"
+            "copyright": "© 2025"
         }
     },
     "entities": {},
     "pages": {
         "home": {
-            "title": "Asociación Española Sindrome de Rett",
-            "subtitle": "Subtitle."
+            "title": "RettX Registro de Pacientes",
+            "subtitle": "Una nueva esperanza para el Síndrome de Rett"
         }
     }
 }
