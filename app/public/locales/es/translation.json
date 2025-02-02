@@ -1,0 +1,33 @@
+{
+    "common": {
+        "title": "Asociación Española Sindrome de Rett",
+        "loading": "Loading...",
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save"
+    },
+    "components": {
+        "header-bar": {
+            "home": "Home",
+            "contribute": "Contribute",
+            "blog": "Blog",
+            "sign-in": "Sign in",
+            "sign-out": "Sign out"
+        },
+        "footer": {
+            "contact": "Contact Us",
+            "privacy": "Privacy",
+            "manage-cookies": "Manage cookies",
+            "terms-of-use": "Terms of use",
+            "copyright": "© 2023"
+        }
+    },
+    "entities": {},
+    "pages": {
+        "home": {
+            "title": "Asociación Española Sindrome de Rett",
+            "subtitle": "Subtitle."
+        }
+    }
+}

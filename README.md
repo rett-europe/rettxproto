@@ -1,2 +1,2 @@
-# rettx-vue
-RettX prototype using Vue
+# rettx-proto
+RettX prototype using React
