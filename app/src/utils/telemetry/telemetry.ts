@@ -1,3 +1,4 @@
+/*
 import { ApplicationInsights } from "@microsoft/applicationinsights-web";
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js";
 
@@ -29,3 +30,4 @@ export class Telemetry {
         Telemetry.appInsights.config.disableTelemetry = false;
     }
 }
+*/

@@ -1,69 +1,82 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import { useMsal } from "@azure/msal-react";
-import { InteractionStatus, RedirectRequest } from "@azure/msal-browser";
-import { Auth } from "./utils/auth/auth";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Home } from "./pages/home/home";
 
 function App() {
-    // const { accounts } = useMsal();
-
-    return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-
-            {/* <Route
-                path="/something"
-                element={
-                    <ProtectedRoute isAllowed={isPlatformAdmin(accounts)}>
-                        <PageA />
-                    </ProtectedRoute>
-                }
-            /> */}
-            <Route path="*" element={<NotFound />} />
-        </Routes>
-    );
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      {/*
+        Example usage:
+        <Route
+          path="/something"
+          element={
+            <ProtectedRoute isAllowed={/* your custom role check here *\/}>
+              <PageA />
+            </ProtectedRoute>
+          }
+        />
+      */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }
 
-function ProtectedRoute({ isAllowed, children }: { isAllowed?: boolean; children: JSX.Element }): JSX.Element | null {
-    const { instance, inProgress } = useMsal();
+interface ProtectedRouteProps {
+  isAllowed?: boolean;
+  children: JSX.Element;
+}
 
-    if (isAllowed === undefined) isAllowed = instance.getActiveAccount() !== null;
+/**
+ * ProtectedRoute checks whether the user is allowed to access the children.
+ * If not, it triggers loginWithRedirect.
+ */
+function ProtectedRoute({ isAllowed, children }: ProtectedRouteProps): JSX.Element | null {
+  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
-    useEffect(() => {
-        // Force user login if he isn't and has no access.
-        if (!isAllowed && inProgress === InteractionStatus.None && instance.getActiveAccount() == null) {
-            instance.loginRedirect(Auth.getAuthenticationRequest() as RedirectRequest);
-        }
-    }, [inProgress]);
+  // If no explicit permission is provided, consider the user allowed if authenticated.
+  if (isAllowed === undefined) {
+    isAllowed = isAuthenticated;
+  }
 
-    if (inProgress && inProgress === InteractionStatus.None) {
-        if (isAllowed) return children ? children : <Outlet />;
-        else return <Unauthorized />;
-    } else {
-        return null;
+  useEffect(() => {
+    // If the user is not allowed, not loading, and not authenticated,
+    // trigger login.
+    if (!isAllowed && !isLoading && !isAuthenticated) {
+      loginWithRedirect();
     }
+  }, [isAllowed, isLoading, isAuthenticated, loginWithRedirect]);
+
+  if (isLoading) {
+    // Optionally, you could render a loading indicator here.
+    return null;
+  } else {
+    return isAllowed ? (children ? children : <Outlet />) : <Unauthorized />;
+  }
 }
 
 function NotFound() {
-    return (
-        <main className="p-8 md:px-24">
-            <h1>Not Found</h1>
-        </main>
-    );
+  return (
+    <main className="p-8 md:px-24">
+      <h1>Not Found</h1>
+    </main>
+  );
 }
 
 function Unauthorized() {
-    const { instance } = useMsal();
+  const { logout } = useAuth0();
 
-    function signOut() {
-        instance.logoutRedirect();
-    }
-    return (
-        <main className="p-8 md:px-24">
-            <h1>Unauthorized</h1>
-            <button onClick={signOut}>Logout</button>
-        </main>
-    );
+  function signOut() {
+    logout({ returnTo: window.location.origin });
+  }
+
+  return (
+    <main className="p-8 md:px-24">
+      <h1>Unauthorized</h1>
+      <button onClick={signOut}>Logout</button>
+    </main>
+  );
 }
+
 export default App;

@@ -15,17 +15,6 @@ import {
 import resolveConfig from "tailwindcss/resolveConfig";
 import TailwindConfig from "../../../tailwind.config";
 
-// Example role check function for Auth0 user
-// Adjust the claim key as per your Auth0 configuration
-const isPlatformAdmin = (user: any): boolean => {
-  return (
-    user &&
-    user["https://your-domain/roles"] &&
-    Array.isArray(user["https://your-domain/roles"]) &&
-    user["https://your-domain/roles"].includes("PlatformAdmin")
-  );
-};
-
 const fullConfig = resolveConfig(TailwindConfig);
 const useStylesAvatar = makeStyles({
   root: {
@@ -66,9 +55,6 @@ export function HeaderBar({ location }: { location?: NavLocation }) {
     "cursor-pointer hover:no-underline hover:border-b-[3px] h-9 min-h-0 block";
   const linkCurrent = "pointer-events-none border-b-[3px]";
 
-  // Determine if the user is an admin using the Auth0 user object
-  const isAdmin = isPlatformAdmin(user);
-
   // Define sign-in and sign-out functions using Auth0's methods
   function signIn() {
     loginWithRedirect();
@@ -88,15 +74,6 @@ export function HeaderBar({ location }: { location?: NavLocation }) {
         location: NavLocation.Home,
         to: "/",
       },
-      isAdmin
-        ? {
-            key: "contribute",
-            label: t("components.header-bar.contribute"),
-            isPrimary: true,
-            location: NavLocation.Contribute,
-            to: "/editor",
-          }
-        : null,
       !isAuthenticated
         ? {
             key: "sign-in",
@@ -114,7 +91,7 @@ export function HeaderBar({ location }: { location?: NavLocation }) {
           }
         : null,
     ],
-    [isAuthenticated, isAdmin, t]
+    [isAuthenticated, t]
   );
 
   function toggleMenu() {

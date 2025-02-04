@@ -3,8 +3,8 @@ import * as React from "react";
 import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Layout } from "./components/layout/layout";
-import { Telemetry } from "./utils/telemetry/telemetry";
-import { AppInsightsContext, ReactPlugin } from "@microsoft/applicationinsights-react-js";
+//import { Telemetry } from "./utils/telemetry/telemetry";
+//import { AppInsightsContext, ReactPlugin } from "@microsoft/applicationinsights-react-js";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import resolveConfig from "tailwindcss/resolveConfig";
@@ -16,7 +16,7 @@ import { SnackbarError } from "./components/snackbar/snackbarError";
 import { Auth0Initializer } from "./utils/auth/Auth0Initializer"; // our new initializer
 
 /* Application insights initialization */
-const reactPlugin: ReactPlugin = Telemetry.initAppInsights(window.ENV.APP_INSIGHTS_CS, true);
+//const reactPlugin: ReactPlugin = Telemetry.initAppInsights(window.ENV.APP_INSIGHTS_CS, true);
 
 // FluentUI v9 theme customization using tailwind defined values
 const fullConfig = resolveConfig(TailwindConfig);
@@ -40,7 +40,6 @@ function App() {
                 {/* This component initializes our Auth0-based wrapper so that the rest of the app can continue calling
                     the same methods as before (e.g., getAccessTokenAsync, logout, etc.) */}
                 <Auth0Initializer />
-                <AppInsightsContext.Provider value={reactPlugin}>
                     <FluentProvider theme={webLightTheme}>
                         <BrowserRouter>
                             <SnackbarProvider
@@ -53,7 +52,6 @@ function App() {
                             </SnackbarProvider>
                         </BrowserRouter>
                     </FluentProvider>
-                </AppInsightsContext.Provider>
             </Auth0Provider>
         </Suspense>
     );

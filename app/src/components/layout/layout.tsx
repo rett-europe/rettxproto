@@ -1,15 +1,19 @@
 import React from "react";
-import { InteractionStatus } from "@azure/msal-browser";
-import { useMsal } from "@azure/msal-react";
 import { Footer } from "../footer/footer";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export function Layout({ children }: { children?: React.ReactNode }) {
-    const { inProgress } = useMsal();
+  const { isLoading } = useAuth0();
 
-    return !inProgress || inProgress === InteractionStatus.None ? (
-        <>            
-            {children}
-            <Footer/>
-        </>
-    ) : null;
+  // Optionally, you could render a loader/spinner while Auth0 is loading.
+  if (isLoading) {
+    return null;
+  }
+
+  return (
+    <>
+      {children}
+      <Footer />
+    </>
+  );
 }
