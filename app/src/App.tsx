@@ -13,7 +13,7 @@ import AppRoutes from "./AppRoutes";
 import { SnackbarProvider } from "notistack";
 import { SnackbarSuccess } from "./components/snackbar/snackbarSuccess";
 import { SnackbarError } from "./components/snackbar/snackbarError";
-import { Auth0Initializer } from "./utils/auth/Auth0Initializer"; // our new initializer
+import { Auth0Initializer } from "./utils/auth/Auth0Initializer";
 
 /* Application insights initialization */
 //const reactPlugin: ReactPlugin = Telemetry.initAppInsights(window.ENV.APP_INSIGHTS_CS, true);
@@ -33,12 +33,9 @@ function App() {
                 domain={import.meta.env.VITE_AUTH0_DOMAIN}
                 clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
                 authorizationParams={{
-                    redirect_uri: window.location.origin,
-                    audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+                    redirect_uri: window.location.origin
                 }}
             >
-                {/* This component initializes our Auth0-based wrapper so that the rest of the app can continue calling
-                    the same methods as before (e.g., getAccessTokenAsync, logout, etc.) */}
                 <Auth0Initializer />
                     <FluentProvider theme={webLightTheme}>
                         <BrowserRouter>
