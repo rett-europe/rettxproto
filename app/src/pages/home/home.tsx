@@ -66,7 +66,7 @@ export function Home() {
               <ul>
                 {patients.map((patient) => (
                   <li key={patient.id} className="mb-1">
-                    {patient.name} ({patient.given_name} {patient.family_name})
+                    {patient.name} ({patient.country_of_birth}, {patient.date_of_birth})
                   </li>
                 ))}
               </ul>
