@@ -1,4 +1,3 @@
-// src/pages/home/home.tsx
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HeaderBar, NavLocation } from "../../components/headerBar/headerBar";
@@ -34,6 +33,12 @@ export function Home() {
     }
   }, [isAuthenticated]);
 
+  // A helper function to navigate to detail view for a given patient
+  const handleCardClick = (patientId: number) => {
+    // navigate to a route like `/patients/:id`
+    navigate(`/patients/${patientId}`);
+  };
+
   return (
     <>
       <Header className="" size="large">
@@ -62,14 +67,27 @@ export function Home() {
           <div>
             <h2 className="text-2xl mb-4">Welcome, {user.name}</h2>
             <h3 className="text-xl mb-2">Your Patients:</h3>
+            
             {patients.length > 0 ? (
-              <ul>
+              /**
+               * Create a responsive grid using Tailwind CSS
+               * grid-cols-1 on small screens, then 2, 3, or 4 columns on larger screens
+               */
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {patients.map((patient) => (
-                  <li key={patient.id} className="mb-1">
-                    {patient.name} ({patient.country_of_birth}, {patient.date_of_birth})
-                  </li>
+                  <div
+                    key={patient.id}
+                    onClick={() => handleCardClick(patient.id)}
+                    className="cursor-pointer bg-white rounded-md shadow p-4 
+                               flex flex-col justify-center items-center 
+                               hover:shadow-lg transition-shadow"
+                  >
+                    <div className="font-bold text-lg mb-2">{patient.name}</div>
+                    <div>{patient.country_of_birth}</div>
+                    <div>{patient.date_of_birth}</div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p>No patients found.</p>
             )}

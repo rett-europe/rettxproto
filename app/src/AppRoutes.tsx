@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Home } from "./pages/home/home";
+import { PatientDetails } from "./pages/patientDetails/patientDetails";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/patients/:id" element={<PatientDetails />} />
       {/*
         Example usage:
         <Route
