@@ -147,7 +147,7 @@ export function PatientDetails() {
         {/* Content Area */}
         <div className="flex items-center mb-6">
           <img
-            src="/public/img/girl_avatar.png"
+            src="/img/girl_avatar.png"
             alt="Patient Avatar"
             className="rounded-full w-24 h-24 object-cover mr-6"
           />
