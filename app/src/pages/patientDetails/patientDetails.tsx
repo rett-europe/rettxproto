@@ -72,8 +72,13 @@ export function PatientDetails() {
     if (!id) return;
     try {
       setIsDataLoading(true);
-      // Adjust PUT vs PATCH based on your API
-      await httpClient.put<Patient>(`/patients/${id}`, formData);
+      const baseUrl = import.meta.env.VITE_API_URL;
+      const detailEndpoint = `${baseUrl}/patients/${id}`;
+
+      await httpClient.patch<
+        { name: string; country_of_birth: string; date_of_birth: string },
+        Patient
+      >(detailEndpoint, formData);
 
       // Update local patient state to reflect changes
       setPatient((prev) =>
@@ -155,7 +160,7 @@ export function PatientDetails() {
         {/* Content Area */}
         <div className="flex items-center mb-6">
           <img
-            src="/img/patient_avatar.png"
+            src="/public/img/girl_avatar.png"
             alt="Patient Avatar"
             className="rounded-full w-24 h-24 object-cover mr-6"
           />
