@@ -120,15 +120,15 @@ export function PatientDetails() {
       <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-8">
         {/* Header / Title */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-neutral-700">
             Patient Details
           </h1>
 
           {!isEditing ? (
             <button
               onClick={handleEditClick}
-              className="py-2 px-4 rounded-md bg-blue-600 text-white
-                         hover:bg-blue-700 transition-colors"
+              className="py-2 px-4 rounded-md bg-yellow-500 text-white
+                         hover:bg-yellow-700 transition-colors"
             >
               Edit
             </button>
@@ -143,8 +143,8 @@ export function PatientDetails() {
               </button>
               <button
                 onClick={handleCancelClick}
-                className="py-2 px-4 rounded-md bg-gray-300 text-gray-800
-                           hover:bg-gray-400 transition-colors"
+                className="py-2 px-4 rounded-md bg-neutral-300 text-neutral-700
+                           hover:bg-neutral-500 transition-colors"
               >
                 Cancel
               </button>
@@ -163,10 +163,10 @@ export function PatientDetails() {
             {!isEditing ? (
               <>
                 <h2 className="text-2xl font-semibold">{patient.name}</h2>
-                <p className="text-gray-500">
+                <p className="text-neutral-550">
                   Country of Birth: {patient.country_of_birth}
                 </p>
-                <p className="text-gray-500">
+                <p className="text-neutral-550">
                   Date of Birth: {patient.date_of_birth}
                 </p>
               </>
@@ -174,7 +174,7 @@ export function PatientDetails() {
               <div className="space-y-3">
                 {/* Name field */}
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">
+                  <label className="block text-neutral-600 font-medium mb-1">
                     Name
                   </label>
                   <input
@@ -183,12 +183,12 @@ export function PatientDetails() {
                     value={formData.name}
                     onChange={handleInputChange}
                     className="w-full border border-gray-300 rounded-md
-                               py-2 px-3 text-gray-700"
+                               py-2 px-3 text-neutral-600"
                   />
                 </div>
                 {/* Country of Birth field */}
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">
+                  <label className="block text-neutral-600 font-medium mb-1">
                     Country of Birth
                   </label>
                   <input
@@ -197,12 +197,12 @@ export function PatientDetails() {
                     value={formData.country_of_birth}
                     onChange={handleInputChange}
                     className="w-full border border-gray-300 rounded-md
-                               py-2 px-3 text-gray-700"
+                               py-2 px-3 text-neutral-600"
                   />
                 </div>
                 {/* Date of Birth field */}
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">
+                  <label className="block text-neutral-600 font-medium mb-1">
                     Date of Birth
                   </label>
                   <input
@@ -211,7 +211,7 @@ export function PatientDetails() {
                     value={formData.date_of_birth}
                     onChange={handleInputChange}
                     className="w-full border border-gray-300 rounded-md
-                               py-2 px-3 text-gray-700"
+                               py-2 px-3 text-neutral-600"
                   />
                 </div>
               </div>
@@ -222,8 +222,8 @@ export function PatientDetails() {
         {/* Additional Info Section (Customizable) */}
         <hr className="my-6" />
         <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">Notes</h3>
-          <p className="text-gray-700 leading-relaxed">
+          <h3 className="text-xl font-semibold text-neutral-700 mb-2">Notes</h3>
+          <p className="text-neutral-600 leading-relaxed">
             Here’s where you can add any additional notes about this patient,
             such as medical history, allergies, or next appointment details.
             (This is just an example placeholder – you can customize as needed.)
@@ -234,8 +234,8 @@ export function PatientDetails() {
         <div className="mt-6">
           <button
             onClick={() => navigate(-1)}
-            className="py-2 px-4 rounded-md bg-gray-200 text-gray-800
-                       hover:bg-gray-300 transition-colors"
+            className="py-2 px-4 rounded-md bg-neutral-600 text-neutral-200
+                       hover:bg-neutral-700 transition-colors"
           >
             Back
           </button>
