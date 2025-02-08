@@ -54,20 +54,13 @@ export function PatientDetails() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  /**
-   * Toggles the edit mode on
-   */
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
-  /**
-   * Saves the form data to the API,
-   * then updates the displayed patient
-   */
   const handleSaveClick = async () => {
     if (!id) return;
     try {
@@ -81,9 +74,7 @@ export function PatientDetails() {
       >(detailEndpoint, formData);
 
       // Update local patient state to reflect changes
-      setPatient((prev) =>
-        prev ? { ...prev, ...formData } : null
-      );
+      setPatient((prev) => (prev ? { ...prev, ...formData } : null));
 
       setIsEditing(false);
       setIsDataLoading(false);
@@ -93,13 +84,9 @@ export function PatientDetails() {
     }
   };
 
-  /**
-   * Cancels edit mode, discarding unsaved changes
-   */
   const handleCancelClick = () => {
     if (!patient) return;
-
-    // Reset to original patient data
+    // Reset form to original patient data
     setFormData({
       name: patient.name,
       country_of_birth: patient.country_of_birth,
@@ -231,8 +218,43 @@ export function PatientDetails() {
           <p className="text-neutral-600 leading-relaxed">
             Here’s where you can add any additional notes about this patient,
             such as medical history, allergies, or next appointment details.
-            (This is just an example placeholder – you can customize as needed.)
           </p>
+        </div>
+
+        {/* Mutations Section */}
+        <hr className="my-6" />
+        <div>
+          <h3 className="text-xl font-semibold text-neutral-700 mb-2">
+            Mutations
+          </h3>
+          {patient.mutations && patient.mutations.length > 0 ? (
+            <div className="space-y-4">
+              {patient.mutations.map((mutation) => (
+                <div
+                  key={mutation.id}
+                  className="border rounded-md p-4 flex flex-col space-y-2"
+                >
+                  <div>
+                    <strong>Gene mutation:</strong>{" "}
+                    {mutation.gene_mutation_collection?.mutation_id}
+                  </div>
+                  {/* Example of showing protein_mutation fields */}
+                  <div>
+                    <strong>Protein mutation:</strong>{" "}
+                    {mutation.gene_mutation_collection?.protein_mutation?.protein_transcript}{":"}{mutation.gene_mutation_collection?.protein_mutation?.protein_variation}
+                  </div>
+                  <div>
+                    <strong>Created at:</strong> {mutation.created_at}
+                  </div>
+                  <div>
+                    <strong>Validation status:</strong> {mutation.validation_status}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-neutral-600">No mutations found.</p>
+          )}
         </div>
 
         {/* Back Button (Optional) */}

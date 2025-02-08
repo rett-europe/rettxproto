@@ -23,6 +23,8 @@ export interface Permission {
   export interface GeneMutationCollection {
     mutation_id: string;
     mutation_info: GeneMutationInfo;
+    gene_mutation: GeneMutation;
+    protein_mutation: ProteinMutation;
   }
   
   export interface GeneMutation {
