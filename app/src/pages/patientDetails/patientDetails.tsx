@@ -7,6 +7,7 @@ import { Patient } from "../../types/Patient";
 export function PatientDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [patient, setPatient] = useState<Patient | null>(null);
   const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
 
@@ -15,11 +16,13 @@ export function PatientDetails() {
 
   // Editable form fields
   const [formData, setFormData] = useState<{
-    name: string;
+    given_name: string;
+    family_name: string;
     country_of_birth: string;
     date_of_birth: string;
   }>({
-    name: "",
+    given_name: "",
+    family_name: "",
     country_of_birth: "",
     date_of_birth: "",
   });
@@ -37,7 +40,8 @@ export function PatientDetails() {
 
           // Initialize form data
           setFormData({
-            name: data.name,
+            given_name: data.given_name,
+            family_name: data.family_name,
             country_of_birth: data.country_of_birth,
             date_of_birth: data.date_of_birth,
           });
@@ -68,13 +72,27 @@ export function PatientDetails() {
       const baseUrl = import.meta.env.VITE_API_URL;
       const detailEndpoint = `${baseUrl}/patients/${id}`;
 
+      // We compute `name` by concatenating given_name and family_name
+      const updatedData = {
+        ...formData,
+        name: `${formData.given_name} ${formData.family_name}`.trim(),
+      };
+
       await httpClient.patch<
-        { name: string; country_of_birth: string; date_of_birth: string },
+        typeof updatedData,
         Patient
-      >(detailEndpoint, formData);
+      >(detailEndpoint, updatedData);
 
       // Update local patient state to reflect changes
-      setPatient((prev) => (prev ? { ...prev, ...formData } : null));
+      setPatient((prev) =>
+        prev
+          ? {
+              ...prev,
+              ...formData,
+              name: updatedData.name,
+            }
+          : null
+      );
 
       setIsEditing(false);
       setIsDataLoading(false);
@@ -86,9 +104,11 @@ export function PatientDetails() {
 
   const handleCancelClick = () => {
     if (!patient) return;
+
     // Reset form to original patient data
     setFormData({
-      name: patient.name,
+      given_name: patient.given_name,
+      family_name: patient.family_name,
       country_of_birth: patient.country_of_birth,
       date_of_birth: patient.date_of_birth,
     });
@@ -154,7 +174,10 @@ export function PatientDetails() {
           <div>
             {!isEditing ? (
               <>
-                <h2 className="text-2xl font-semibold">{patient.name}</h2>
+                {/* Display computed name in read-only mode */}
+                <h2 className="text-2xl font-semibold">
+                  {patient.given_name} {patient.family_name}
+                </h2>
                 <p className="text-neutral-550">
                   Country of Birth: {patient.country_of_birth}
                 </p>
@@ -164,15 +187,29 @@ export function PatientDetails() {
               </>
             ) : (
               <div className="space-y-3">
-                {/* Name field */}
+                {/* Given Name field */}
                 <div>
                   <label className="block text-neutral-600 font-medium mb-1">
-                    Name
+                    Given Name
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="given_name"
+                    value={formData.given_name}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md
+                               py-2 px-3 text-neutral-600"
+                  />
+                </div>
+                {/* Family Name field */}
+                <div>
+                  <label className="block text-neutral-600 font-medium mb-1">
+                    Family Name
+                  </label>
+                  <input
+                    type="text"
+                    name="family_name"
+                    value={formData.family_name}
                     onChange={handleInputChange}
                     className="w-full border border-gray-300 rounded-md
                                py-2 px-3 text-neutral-600"
@@ -229,13 +266,19 @@ export function PatientDetails() {
                   </div>
                   <div>
                     <strong>Protein mutation:</strong>{" "}
-                    {mutation.gene_mutation_collection?.protein_mutation?.protein_transcript}{":"}{mutation.gene_mutation_collection?.protein_mutation?.protein_variation}
+                    {mutation.gene_mutation_collection?.protein_mutation?.protein_transcript}
+                    :
+                    {
+                      mutation.gene_mutation_collection?.protein_mutation
+                        ?.protein_variation
+                    }
                   </div>
                   <div>
                     <strong>Created at:</strong> {mutation.created_at}
                   </div>
                   <div>
-                    <strong>Validation status:</strong> {mutation.validation_status}
+                    <strong>Validation status:</strong>{" "}
+                    {mutation.validation_status}
                   </div>
                 </div>
               ))}
