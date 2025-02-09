@@ -211,18 +211,7 @@ export function PatientDetails() {
           </div>
         </div>
 
-        {/* Additional Info Section (Customizable) */}
-        <hr className="my-6" />
-        <div>
-          <h3 className="text-xl font-semibold text-neutral-700 mb-2">Notes</h3>
-          <p className="text-neutral-600 leading-relaxed">
-            Here’s where you can add any additional notes about this patient,
-            such as medical history, allergies, or next appointment details.
-          </p>
-        </div>
-
         {/* Mutations Section */}
-        <hr className="my-6" />
         <div>
           <h3 className="text-xl font-semibold text-neutral-700 mb-2">
             Mutations
@@ -238,7 +227,6 @@ export function PatientDetails() {
                     <strong>Gene mutation:</strong>{" "}
                     {mutation.gene_mutation_collection?.mutation_id}
                   </div>
-                  {/* Example of showing protein_mutation fields */}
                   <div>
                     <strong>Protein mutation:</strong>{" "}
                     {mutation.gene_mutation_collection?.protein_mutation?.protein_transcript}{":"}{mutation.gene_mutation_collection?.protein_mutation?.protein_variation}
@@ -257,7 +245,7 @@ export function PatientDetails() {
           )}
         </div>
 
-        {/* Back Button (Optional) */}
+        {/* Back Button */}
         <div className="mt-6">
           <button
             onClick={() => navigate(-1)}

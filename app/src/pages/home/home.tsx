@@ -6,7 +6,7 @@ import { httpClient } from "../../utils/httpClient/httpClient";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/header/header";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Patient } from "../../types/Patient"; // import the Patient type
+import { Patient } from "../../types/Patient";
 
 export function Home() {
   const { t } = useTranslation();
@@ -33,9 +33,9 @@ export function Home() {
     }
   }, [isAuthenticated]);
 
-  // A helper function to navigate to detail view for a given patient
+  // Navigate to detail view for a given patient
   const handleCardClick = (patientId: number) => {
-    // navigate to a route like `/patients/:id`
+    // navigate to route `/patients/:id`
     navigate(`/patients/${patientId}`);
   };
 
@@ -69,10 +69,6 @@ export function Home() {
             <h3 className="text-xl mb-2">Your Patients:</h3>
             
             {patients.length > 0 ? (
-              /**
-               * Create a responsive grid using Tailwind CSS
-               * grid-cols-1 on small screens, then 2, 3, or 4 columns on larger screens
-               */
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {patients.map((patient) => (
                   <div
