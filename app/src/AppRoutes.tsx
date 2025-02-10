@@ -3,12 +3,14 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Home } from "./pages/home/home";
 import { PatientDetails } from "./pages/patientDetails/patientDetails";
+import { UploadFile } from "./pages/patientDetails/uploadFile";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/patients/:id" element={<PatientDetails />} />
+      <Route path="/patients/:id/upload" element={<UploadFile />} />
       {/*
         Example usage:
         <Route

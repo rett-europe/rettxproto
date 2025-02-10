@@ -1,3 +1,4 @@
+// src/pages/PatientDetails.tsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { httpClient } from "../../utils/httpClient/httpClient";
@@ -72,16 +73,16 @@ export function PatientDetails() {
       const baseUrl = import.meta.env.VITE_API_URL;
       const detailEndpoint = `${baseUrl}/patients/${id}`;
 
-      // We compute `name` by concatenating given_name and family_name
+      // Compute `name` by concatenating given_name and family_name
       const updatedData = {
         ...formData,
         name: `${formData.given_name} ${formData.family_name}`.trim(),
       };
 
-      await httpClient.patch<
-        typeof updatedData,
-        Patient
-      >(detailEndpoint, updatedData);
+      await httpClient.patch<typeof updatedData, Patient>(
+        detailEndpoint,
+        updatedData
+      );
 
       // Update local patient state to reflect changes
       setPatient((prev) =>
@@ -137,26 +138,31 @@ export function PatientDetails() {
           </h1>
 
           {!isEditing ? (
-            <button
-              onClick={handleEditClick}
-              className="py-2 px-4 rounded-md bg-yellow-500 text-white
-                         hover:bg-yellow-700 transition-colors"
-            >
-              Edit
-            </button>
+            <div className="space-x-2">
+              <button
+                onClick={handleEditClick}
+                className="py-2 px-4 rounded-md bg-yellow-500 text-white hover:bg-yellow-700 transition-colors"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => navigate(`/patients/${id}/upload`)}
+                className="py-2 px-4 rounded-md bg-green-500 text-white hover:bg-green-700 transition-colors"
+              >
+                Upload File
+              </button>
+            </div>
           ) : (
             <div className="space-x-2">
               <button
                 onClick={handleSaveClick}
-                className="py-2 px-4 rounded-md bg-green-600 text-white
-                           hover:bg-green-700 transition-colors"
+                className="py-2 px-4 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors"
               >
                 Save
               </button>
               <button
                 onClick={handleCancelClick}
-                className="py-2 px-4 rounded-md bg-neutral-300 text-neutral-700
-                           hover:bg-neutral-500 transition-colors"
+                className="py-2 px-4 rounded-md bg-neutral-300 text-neutral-700 hover:bg-neutral-500 transition-colors"
               >
                 Cancel
               </button>
@@ -174,7 +180,6 @@ export function PatientDetails() {
           <div>
             {!isEditing ? (
               <>
-                {/* Display computed name in read-only mode */}
                 <h2 className="text-2xl font-semibold">
                   {patient.given_name} {patient.family_name}
                 </h2>
@@ -187,7 +192,6 @@ export function PatientDetails() {
               </>
             ) : (
               <div className="space-y-3">
-                {/* Given Name field */}
                 <div>
                   <label className="block text-neutral-600 font-medium mb-1">
                     Given Name
@@ -197,11 +201,9 @@ export function PatientDetails() {
                     name="given_name"
                     value={formData.given_name}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md
-                               py-2 px-3 text-neutral-600"
+                    className="w-full border border-gray-300 rounded-md py-2 px-3 text-neutral-600"
                   />
                 </div>
-                {/* Family Name field */}
                 <div>
                   <label className="block text-neutral-600 font-medium mb-1">
                     Family Name
@@ -211,11 +213,9 @@ export function PatientDetails() {
                     name="family_name"
                     value={formData.family_name}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md
-                               py-2 px-3 text-neutral-600"
+                    className="w-full border border-gray-300 rounded-md py-2 px-3 text-neutral-600"
                   />
                 </div>
-                {/* Country of Birth field */}
                 <div>
                   <label className="block text-neutral-600 font-medium mb-1">
                     Country of Birth
@@ -225,11 +225,9 @@ export function PatientDetails() {
                     name="country_of_birth"
                     value={formData.country_of_birth}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md
-                               py-2 px-3 text-neutral-600"
+                    className="w-full border border-gray-300 rounded-md py-2 px-3 text-neutral-600"
                   />
                 </div>
-                {/* Date of Birth field */}
                 <div>
                   <label className="block text-neutral-600 font-medium mb-1">
                     Date of Birth
@@ -239,8 +237,7 @@ export function PatientDetails() {
                     name="date_of_birth"
                     value={formData.date_of_birth}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md
-                               py-2 px-3 text-neutral-600"
+                    className="w-full border border-gray-300 rounded-md py-2 px-3 text-neutral-600"
                   />
                 </div>
               </div>
@@ -268,10 +265,7 @@ export function PatientDetails() {
                     <strong>Protein mutation:</strong>{" "}
                     {mutation.gene_mutation_collection?.protein_mutation?.protein_transcript}
                     :
-                    {
-                      mutation.gene_mutation_collection?.protein_mutation
-                        ?.protein_variation
-                    }
+                    {mutation.gene_mutation_collection?.protein_mutation?.protein_variation}
                   </div>
                   <div>
                     <strong>Created at:</strong> {mutation.created_at}
@@ -292,8 +286,7 @@ export function PatientDetails() {
         <div className="mt-6">
           <button
             onClick={() => navigate(-1)}
-            className="py-2 px-4 rounded-md bg-neutral-600 text-neutral-200
-                       hover:bg-neutral-700 transition-colors"
+            className="py-2 px-4 rounded-md bg-neutral-600 text-neutral-200 hover:bg-neutral-700 transition-colors"
           >
             Back
           </button>
